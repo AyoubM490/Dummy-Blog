@@ -6,6 +6,18 @@ env:
   FORCE_COLOR: 1
 
 jobs:
+  jest:
+    name: CI
+    on: push
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+        - name: Install modules
+          run: yarn
+        - name: Run tests
+          run: yarn test
   eslint:
     name: ESLint
     runs-on: ubuntu-22.04
