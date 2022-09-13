@@ -1,27 +1,28 @@
-name: Jest
-on: push
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12"
-            - name: Cache node modules
-              uses: actions/cache@v2
-              env:
-                cache-name: cache-node-modules
-              with:
-                path: ~/.npm
-                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-                restore-keys: |
-                  ${{ runner.os }}-build-${{ env.cache-name }}-
-                  ${{ runner.os }}-build-
-                  ${{ runner.os }}-
+name: Jest Unit Tests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-      - name: Install Dependencies
-        run: npm install
-      - name: Run the tests
-       run: npm test
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+        mongodb-version: ['4.2', '4.4', '5.0']
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+      - run: npm ci
+      - run: npm run workflow
+    env: 
+      CI: true
