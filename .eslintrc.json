@@ -20,7 +20,10 @@
       "import/no-unresolved": "off",
       "no-shadow": "off",
       "react/prefer-stateless-function": "off",
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "react/require-default-props": "off",
+      "react/jsx-props-no-spreading": "off",
+      "react/no-array-index-key": "off"
     },
     "ignorePatterns": [
       "dist/",
