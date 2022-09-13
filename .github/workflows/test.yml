@@ -1,27 +1,14 @@
-name: "CI"
-on:
-  pull_request:
-  push:
-    branches:
-      - master
-      - "releases/*"
+name: Test Package
+
+on: [push]
 
 jobs:
-  tests:
-    name: "Unit tests"
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: npm ci
-      - run: npm test
-
-  failing-tests:
-    name: "Failing tests (on purpose)"
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v1
-      - run: npm ci
-      - uses: ./
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn
+      - run: yarn test
