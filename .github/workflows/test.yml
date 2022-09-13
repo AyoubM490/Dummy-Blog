@@ -1,4 +1,4 @@
-name: Test Package
+name: Jest CI
 
 on: [push]
 
