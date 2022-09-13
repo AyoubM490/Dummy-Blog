@@ -1,28 +1,27 @@
-name: Jest Unit Tests
+name: "CI"
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+  push:
+    branches:
+      - master
+      - "releases/*"
 
 jobs:
-  build:
+  tests:
+    name: "Unit tests"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x]
-        mongodb-version: ['4.2', '4.4', '5.0']
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.7.0
-        with:
-          mongodb-version: ${{ matrix.mongodb-version }}
+      - uses: actions/checkout@v1
       - run: npm ci
-      - run: npm run workflow
-    env: 
-      CI: true
+      - run: npm test
+
+  failing-tests:
+    name: "Failing tests (on purpose)"
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v1
+      - run: npm ci
+      - uses: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
