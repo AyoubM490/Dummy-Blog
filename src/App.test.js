@@ -37,4 +37,17 @@ describe('App Component', () => {
     const component = findByTestAttr(wrapper, 'appComponent');
     expect(component.length).toBe(1);
   });
+
+  it('exampleMethodUpdatesState method should update state as expected', () => {
+    const classInstance = wrapper.instance();
+    classInstance.exampleMethodUpdatesState();
+    const newState = classInstance.state.hideBtn;
+    expect(newState).toBe(true);
+  });
+
+  it('exampleMethodReturnsAValue method should return value as expected', () => {
+    const classInstance = wrapper.instance();
+    const newValue = classInstance.exampleMethodReturnsAValue(6);
+    expect(newValue).toBe(7);
+  });
 });
