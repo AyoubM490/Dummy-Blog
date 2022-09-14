@@ -11,7 +11,7 @@ Dummy Blog made with React-Redux,Jest, Enzyme and Husker Git Hook.
 
 # Live Demo
 
-Check out the demo [here](https://client-billing.herokuapp.com/)
+Check out the demo [here](https://dummy--blog.herokuapp.com/)
 
 ## Installation
 - Install dependencies
